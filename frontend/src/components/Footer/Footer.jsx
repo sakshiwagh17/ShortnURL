@@ -2,9 +2,9 @@ import React from "react";
 
 function Footer() {
   return (
-    <div className="bg-slate-900 text-white text-sm  text-center p-2 w-full fixed bottom-0">
-      Copyright &#169; ShortnURL | Sakshi Wagh
-    </div>
+    <footer className="bg-slate-900 w-full text-center text-sm text-slate-400 py-3 mt-10">
+      © {new Date().getFullYear()} ShortnURL | Sakshi Wagh
+    </footer>
   );
 }
 
