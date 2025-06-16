@@ -1,18 +1,27 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-const FormContainer = () => {
-  const [fullUrl,setFullUrl]=useState("");
-  const handleSubmit=async (e)=>{
+const FormContainer = ({ updateRelod }) => {
+  const [fullUrl, setFullUrl] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      
-    } catch (error) {
-      
-      
+    if (!fullUrl.trim()) {
+      alert("Please enter a valid URL");
+      return;
     }
+    try {
+      await axios.post("http://localhost:5001/api/shorturl", {
+        fullUrl,
+      });
+      setFullUrl("");
+      updateRelod(); // Trigger data reload
+    } catch (error) {
+      console.error("Error in shortening URL:", error);
+      alert("Failed to shorten URL. Try again.");
+    }
+  };
 
-
-  }
   return (
     <div className="container mx-auto px-4 py-10">
       <div className="bg-slate-800 rounded-2xl shadow-md max-w-2xl mx-auto">
@@ -27,17 +36,21 @@ const FormContainer = () => {
             Clean, simple, and free URL shortener for quick sharing.
           </p>
 
-          <form className="flex flex-col sm:flex-row items-center gap-3 justify-center" onSubmit={handleSubmit}>
+          <form
+            className="flex flex-col sm:flex-row items-center gap-3 justify-center"
+            onSubmit={handleSubmit}
+          >
             <input
               type="text"
               placeholder="Paste your link here..."
               value={fullUrl}
-              onChange={(e)=>setFullUrl(e.target.value)}
+              onChange={(e) => setFullUrl(e.target.value)}
               className="w-full sm:w-2/3 px-4 py-2 rounded-xl text-sm bg-slate-700 text-white placeholder-slate-400 focus:outline-none focus:ring-2"
             />
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-400 text-white hover:text-black px-5 py-2 rounded-xl text-sm">
+              className="bg-blue-600 hover:bg-blue-400 text-white hover:text-black px-5 py-2 rounded-xl text-sm"
+            >
               Shorten URL
             </button>
           </form>
